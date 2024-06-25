@@ -2,10 +2,11 @@
   "name": "mega-ads-back",
   "version": "0.1.0",
   "main": "index.js",
-  "scripts":{
+  "scripts": {
     "start": "ts-node index.ts",
     "dev": "tsnd index.ts",
-    "build": "tsc"
+    "build": "tsc",
+    "lint": "eslint . --ext .js,.jsx"
   },
   "license": "MIT",
   "dependencies": {
