@@ -13,10 +13,6 @@ app.use(
 
 app.use(json());
 
-app.get('/', (req, res) => {
-  throw new ValidationError('Oh no validation!!');
-});
-
 app.use(handleError);
 
 app.listen(3001, '0.0.0.0', () => {
