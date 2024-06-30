@@ -1,3 +1,7 @@
+interface NewAdEntity extends Omit<AdEntity, 'id'> {
+  id?: string;
+}
+
 interface AdEntity {
   id: string;
   name: string;
@@ -8,4 +12,4 @@ interface AdEntity {
   lon: number;
 }
 
-export { AdEntity };
+export { NewAdEntity, AdEntity };
