@@ -1,4 +1,5 @@
 import express, { json } from 'express';
+import {rateLimit} from 'express-rate-limit'
 import 'express-async-errors';
 import cors from 'cors';
 import { handleError, ValidationError } from './utils/errors';
@@ -12,6 +13,11 @@ app.use(
 );
 
 app.use(json());
+
+app.use(rateLimit({
+  windowMs: 5 * 1000 * 60,
+  limit: 100
+}))
 
 app.use(handleError);
 
