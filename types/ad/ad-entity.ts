@@ -2,14 +2,17 @@ interface NewAdEntity extends Omit<AdEntity, 'id'> {
   id?: string;
 }
 
-interface AdEntity {
+interface SimpleAdEntity {
   id: string;
-  name: string;
-  description: string;
-  price: number;
-  url: string;
   lat: number;
   lon: number;
 }
 
-export { NewAdEntity, AdEntity };
+interface AdEntity extends SimpleAdEntity {
+  name: string;
+  description: string;
+  price: number;
+  url: string;
+}
+
+export { NewAdEntity, AdEntity, SimpleAdEntity };
