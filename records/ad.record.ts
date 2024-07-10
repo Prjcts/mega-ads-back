@@ -2,6 +2,7 @@ import { AdEntity, NewAdEntity, SimpleAdEntity } from '../types';
 import { ValidationError } from '../utils/errors';
 import { pool } from '../utils/db';
 import { FieldPacket } from 'mysql2';
+import { v4 as uuid } from 'uuid';
 
 type AdRecordResult = [AdEntity[], FieldPacket[]];
 
@@ -43,10 +44,7 @@ class AdRecord implements AdEntity {
       throw new ValidationError('The ad could not be located.');
     }
 
-    // if (!obj.id) {
-    //   throw new ValidationError('ID is required for AdRecord');
-    // }
-    this.id = obj.id;
+    this.id = obj.id ?? '';
     this.name = obj.name;
     this.description = obj.description;
     this.price = obj.price;
@@ -66,14 +64,28 @@ class AdRecord implements AdEntity {
   }
 
   static async findAll(name: string): Promise<SimpleAdEntity[]> {
-   const [results] =  await pool.execute('SELECT * FROM `ads` WHERE `name` LIKE :search', {
-      search: `%${name}%`
-    }) as AdRecordResult;
+    const [results] = (await pool.execute(
+      'SELECT * FROM `ads` WHERE `name` LIKE :search',
+      {
+        search: `%${name}%`,
+      }
+    )) as AdRecordResult;
 
-    return results.map(result =>{
-      const {id, lat, lon} =  result
-      return {id, lat, lon}
-    })
+    return results.map((result) => {
+      const { id, lat, lon } = result;
+      return { id, lat, lon };
+    });
+  }
+  async insert() {
+    if (!this.id) {
+      this.id = uuid();
+    } else throw new ValidationError('Cannot insert sth that already exist');
+    await pool.execute(
+      'INSERT INTO `ads`(`id`, `name`, `description`, `price`, `url`, `lat`, `lon`) VALUES(:id, :name, :description, :price, :url, :lat, :lon)', this
+    );
+    // await pool.execute(
+    //   'INSERT INTO `ads`(`id`, `name`, `description`, `price`, `url`, `lat`, `lon`) VALUES (?, ?, ?, ?, ?, ?, ?)',
+    //   [this.id, this.name, this.description, this.price, this.url, this.lat, this.lon])
   }
 }
 

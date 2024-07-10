@@ -20,14 +20,7 @@ app.use(rateLimit({
   limit: 100
 }))
 
-app.get('/one', async (req, res) => {
-  res.json({
-    ok: 'true'
-  })
-})
-app.get('/all', async (req, res) => {
-  console.log(await (AdRecord.findAll('testowa')))
-})
+//Routes
 
 app.use(handleError);
 
