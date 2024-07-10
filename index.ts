@@ -3,7 +3,7 @@ import {rateLimit} from 'express-rate-limit'
 import 'express-async-errors';
 import cors from 'cors';
 import { handleError, ValidationError } from './utils/errors';
-import { AdRecord } from './records/ad.record';
+import { adRouter } from './router/ad.router';
 
 const app = express();
 
@@ -20,7 +20,7 @@ app.use(rateLimit({
   limit: 100
 }))
 
-//Routes
+app.use('/ad', adRouter)
 
 app.use(handleError);
 
