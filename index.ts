@@ -1,5 +1,5 @@
 import express, { json } from 'express';
-import {rateLimit} from 'express-rate-limit'
+import { rateLimit } from 'express-rate-limit';
 import 'express-async-errors';
 import cors from 'cors';
 import { handleError, ValidationError } from './utils/errors';
@@ -9,18 +9,21 @@ const app = express();
 
 app.use(
   cors({
-    origin: 'https://localhost:3000',
-  }),
+    origin: 'http://localhost:3000',
+    optionsSuccessStatus: 200,
+  })
 );
 
 app.use(json());
 
-app.use(rateLimit({
-  windowMs: 5 * 1000 * 60,
-  limit: 100
-}))
+app.use(
+  rateLimit({
+    windowMs: 5 * 1000 * 60,
+    limit: 100,
+  })
+);
 
-app.use('/ad', adRouter)
+app.use('/ad', adRouter);
 
 app.use(handleError);
 

@@ -5,13 +5,11 @@ const adRouter = Router();
 
 adRouter
   .get('/search/:name?', async (req: Request, res: Response) => {
-    const { name } = req.params;
-    const ads = await AdRecord.findAll(name ?? '');
+    const ads = await AdRecord.findAll(req.params.name ?? '');
     res.json(ads);
   })
   .get('/:id', async (req: Request, res: Response) => {
-    const { id } = req.params;
-    const ad = await AdRecord.getOne(id);
+    const ad = await AdRecord.getOne(req.params.id);
     res.json(ad);
   })
   .post('/', async (req: Request, res: Response) => {

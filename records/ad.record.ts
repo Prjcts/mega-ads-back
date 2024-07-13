@@ -70,7 +70,6 @@ class AdRecord implements AdEntity {
         search: `%${name}%`,
       }
     )) as AdRecordResult;
-
     return results.map((result) => {
       const { id, lat, lon } = result;
       return { id, lat, lon };
@@ -83,9 +82,6 @@ class AdRecord implements AdEntity {
     await pool.execute(
       'INSERT INTO `ads`(`id`, `name`, `description`, `price`, `url`, `lat`, `lon`) VALUES(:id, :name, :description, :price, :url, :lat, :lon)', this
     );
-    // await pool.execute(
-    //   'INSERT INTO `ads`(`id`, `name`, `description`, `price`, `url`, `lat`, `lon`) VALUES (?, ?, ?, ?, ?, ?, ?)',
-    //   [this.id, this.name, this.description, this.price, this.url, this.lat, this.lon])
   }
 }
 
